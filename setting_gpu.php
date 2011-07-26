@@ -33,12 +33,12 @@ if (isset($_POST['add'])){
 	*/
 
 	if(file_put_contents($config,yaml_emit($arr))){
-        	echo "GPU successfully added, reload page to modify!";
+        	//echo "GPU successfully added, reload page to modify!";
                 //echo "$setting=".$_POST['value'];
 
         }
         else{
-                echo "Failed to modify setting!";
+                //echo "Failed to modify setting!";
         }
 
 }
@@ -89,12 +89,12 @@ if(isset($_POST['value'])){
 	echo "</pre>";
 	*/
 	$data["gpu".$gpu][$setting] = $_POST['value'];
-	//$test = yaml_parse($_POST['value']);
-	//$data[$gpuID] = array_replace($data[$gpuID],$test);
-	//emit to file
-	//$wee = yaml_emit($test);
-	//now write the file
-	if(file_put_contents($config,yaml_emit($data))){
+
+	$doneData = yaml_emit($data);
+	//remove the YAML 1.1 crap
+	$doneData = str_replace("---","",$doneData);
+        $doneData = str_replace("...","",$doneData);
+	if(file_put_contents($config,$doneData)){
 	//	echo "File successfully modified!";
 		echo "$setting=".$_POST['value'];
 

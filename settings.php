@@ -31,7 +31,15 @@
                                  indicator : '<img src="img/indicator.gif">',
                                  style   : 'display: inline'
                                 });
-
+			 $('.edit_area_pool').editable('setting_pool.php', {
+                                 loadurl   : 'setting_pool.php',
+                                 type      : 'textarea',
+                                 cancel    : 'Cancel',
+                                 submit    : 'Save',
+                                 submitdata: '' ,
+                                 indicator : '<img src="img/indicator.gif">',
+                                 style   : 'display: inline'
+                                });
 		 });
 		
 		$(function(){
@@ -72,7 +80,7 @@ foreach($yaml2 as $k => $v){
 <?php endfor; ?>
 
  <a id="c" class="tab {content:'control' }">Control</a>
- <a id="d" class="tab {content:'Pool' }">Pool</a>
+ <a id="d" class="tab {content:'pool' }">Pool</a>
 <?php
 
 $count = 0;
@@ -116,7 +124,17 @@ foreach($yaml2 as $k => $v){
 </div>
 
 <div id="pool">
+<?php 
+$pool = "/etc/bamt/pools";
+$data = file($pool);
 
+foreach($data as $k => $v){
+	echo "<div id='pool-$k' class='edit_area_pool'>";
+        echo $v;
+        echo "</div>";
+}
+
+?>
 </div>
 
 </div>
