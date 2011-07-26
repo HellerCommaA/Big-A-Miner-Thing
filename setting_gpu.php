@@ -33,13 +33,14 @@ if (isset($_POST['add'])){
 	*/
 
 	if(file_put_contents($config,yaml_emit($arr))){
-        	//echo "GPU successfully added, reload page to modify!";
+        	echo "GPU successfully added, reload page to modify!";
                 //echo "$setting=".$_POST['value'];
 
         }
         else{
                 //echo "Failed to modify setting!";
         }
+	//reload the config file?
 
 }
 
