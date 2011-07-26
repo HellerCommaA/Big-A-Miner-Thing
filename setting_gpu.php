@@ -46,17 +46,34 @@ if (isset($_POST['add'])){
 
 //delete the GPU
 //TODO: revise this to jquery so there ill be no need for a header
-if(isset($_POST['gpudel'])){
-	$gpuNum = $_POST['gpudel'];
-	$arr = yaml_parse_file($config);
-	unset($arr['gpu'.$gpuNum]);
-
-	if(file_put_contents($config,yaml_emit($arr))){
-		header("Location: settings.php");
-        }
-        else{
-                echo "Failed to modify setting!";
-        }
+if(isset($_POST['gpu'])){
+	$gpuNum = $_POST['gpu'];
+	switch($_POST['action']){
+		case 'Delete':	
+				$arr = yaml_parse_file($config);
+				if(file_put_contents($config,yaml_emit($arr))){
+					//header("Location: settings.php");
+			        }
+			        else{
+			                echo "Failed to modify setting!";
+			        }
+				break;
+		case 'Insert':
+				$data = yaml_parse_file($config);
+				$setting = $_POST['setting'];
+				$value = $_POST['val'];
+				$data["gpu".$gpuNum][$setting] = $_POST['val'];
+				$ret = writeFile($data,$config);
+				if($ret){
+				//      echo "File successfully modified!";
+					//doesnt use ajax so we have to do a header...
+					header("Location: settings.php");
+				}
+				else{
+					echo "Failed to modify setting!";
+				}
+				break;
+	}
 }
 //display information on the settings page
 if(isset($_GET['id'])){
@@ -90,12 +107,8 @@ if(isset($_POST['value'])){
 	echo "</pre>";
 	*/
 	$data["gpu".$gpu][$setting] = $_POST['value'];
-
-	$doneData = yaml_emit($data);
-	//remove the YAML 1.1 crap
-	$doneData = str_replace("---","",$doneData);
-        $doneData = str_replace("...","",$doneData);
-	if(file_put_contents($config,$doneData)){
+	$ret = writeFile($data,$config);
+	if($ret){
 	//	echo "File successfully modified!";
 		echo "$setting=".$_POST['value'];
 
@@ -106,4 +119,17 @@ if(isset($_POST['value'])){
 
 }
 
+
+function writeFile($newArr,$config){
+	$doneData = yaml_emit($newArr);
+	$doneData = str_replace("---","",$doneData);
+        $doneData = str_replace("...","",$doneData);
+	if(file_put_contents($config,$doneData)){
+		return 1;
+        }
+        else{
+		return 0;
+        }
+
+}
 ?>

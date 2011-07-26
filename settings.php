@@ -14,13 +14,31 @@
 	<link rel="stylesheet" type="text/css" href="bamt/status.css" title="style"  media="screen"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			 $.editable.addInputType('gpu_third', {
+				element : $.editable.types.text.element,
+				buttons : function(settings, original) {
+				    var default_buttons = $.editable.types['defaults'].buttons
+				    default_buttons.apply(this, [settings, original]);
+			  
+				    var third = $('<input type="button">');
+				    third.val(settings.third);
+				    $(this).append(third);
+			  
+				    $(third).click(function() {
+					alert("Soon to be implemented!");
+				    });
+				}
+		                 });
 			$('.edit_area_gpu').editable('setting_gpu.php', { 
+				 type	   :  'gpu_third',
 				 loadurl   : 'setting_gpu.php',
 				 cancel    : 'Cancel',
 				 submit    : 'Save',
 				 submitdata: '' ,
-				 indicator : '<img src="img/indicator.gif">',
-				 style   : 'display: inline'
+				 indicator : '<img src="images/indicator.gif">',
+				 style   : 'display: inline',
+                            	 third   : "Delete", 
+	
 				});
       			$('.edit_area_stg').editable('setting_general.php', {
                                  loadurl   : 'setting_general.php',
@@ -28,7 +46,7 @@
                                  cancel    : 'Cancel',
                                  submit    : 'Save',
                                  submitdata: '' ,
-                                 indicator : '<img src="img/indicator.gif">',
+                                 indicator : '<img src="images/indicator.gif">',
                                  style   : 'display: inline'
                                 });
 			 $('.edit_area_pool').editable('setting_pool.php', {
@@ -37,14 +55,13 @@
                                  cancel    : 'Cancel',
                                  submit    : 'Save',
                                  submitdata: '' ,
-                                 indicator : '<img src="img/indicator.gif">',
+                                 indicator : '<img src="images/indicator.gif">',
                                  style   : 'display: inline'
                                 });
 		 });
-		
+			
 		$(function(){
 			$("#tabset1").buildMbTabset({
-				stop:function(){if ($("#array").is(":checked")) alert($.mbTabset.mbTabsetArray)},
 				sortable:true
 			});
 			//$("#b").selectMbTab();
@@ -95,9 +112,13 @@ foreach($yaml2 as $k => $v){
 		}
 		//add a form to delete the GPU
 		echo "<form name='modifygpu$gpuArr[$count]' action='setting_gpu.php' method='POST'>";
-		echo "<input type='hidden' name='gpudel' value='$gpuArr[$count]'>";
+		echo "<input type='hidden' name='gpu' value='$gpuArr[$count]'>";
 		echo "<BR/>";
-		echo "<input type='submit' value='Delete GPU'>";
+		echo "<input type='submit' name='action' value='Delete'>";
+		echo "<BR/><BR/>";
+		echo "Setting: <input type='text' name='setting'>";
+		echo "Value: <input type='text' name='val'>";
+		echo "<input type='submit' name='action' value='Insert'>";
 		echo "</form>";
 		echo "</div>";
 		
