@@ -72,6 +72,7 @@ foreach($yaml2 as $k => $v){
 <?php endfor; ?>
 
  <a id="c" class="tab {content:'control' }">Control</a>
+ <a id="d" class="tab {content:'Pool' }">Pool</a>
 <?php
 
 $count = 0;
@@ -111,11 +112,12 @@ foreach($yaml2 as $k => $v){
 <div id="control">
 <a href="setting_control.php?mining=stop">Stop Mining</a>
 |
-<a href="setting_control.php?mining=stop">Start Mining</a>
-
+<a href="setting_control.php?mining=start">Start Mining</a>
 </div>
 
+<div id="pool">
 
+</div>
 
 </div>
 </body>
